@@ -1,6 +1,6 @@
 {
     "name": "t3brightside/transliterate-slugger",
-    "description": "Transliterate Slugger - Custom transliteration for Estonian, Finnish, and Scandinavian slug characters.",
+    "description": "Native PHP ICU transliteration for TYPO3 slug fields.",
     "type": "typo3-cms-extension",
 	"keywords": ["TYPO3", "extension", "slug", "transliteration", "nordic", "estonian", "finnish", "scandinavian"],
 	"license": "GPL-2.0-or-later",
