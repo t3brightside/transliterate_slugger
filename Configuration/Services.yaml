@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  # Fixed: Single parent jump to find the Classes folder
+  Brightside\TransliterateSlugger\:
+    resource: "../Classes/*"
+
+  Brightside\TransliterateSlugger\Hook\TransliterateSlugModifier:
+    public: true

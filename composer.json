@@ -1,0 +1,32 @@
+{
+    "name": "t3brightside/transliterate-slugger",
+    "description": "Transliterate Slugger - Custom transliteration for Estonian, Finnish, and Scandinavian slug characters.",
+    "type": "typo3-cms-extension",
+	"keywords": ["TYPO3", "extension", "slug", "transliteration", "nordic", "estonian", "finnish", "scandinavian"],
+	"license": "GPL-2.0-or-later",
+	"homepage": "https://t3brightside.com",
+	"authors": [{
+		"name": "Tanel Põld",
+		"role": "Developer",
+		"homepage": "https://t3brightside.com"
+	}],
+    "authors": [
+        {
+            "name": "Tanel Põld",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "typo3/cms-core": "^14.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brightside\\TransliterateSlugger\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "transliterate_slugger"
+        }
+    }
+}
