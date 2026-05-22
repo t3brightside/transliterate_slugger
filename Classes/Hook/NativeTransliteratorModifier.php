@@ -96,7 +96,7 @@ class NativeTransliteratorModifier
 
             return $site->getLanguageById($languageUid)->getLocale()->getLanguageCode();
         } catch (\Exception $e) {
-            return 'et'; 
+            return 'en'; 
         }
     }
 }
