@@ -10,5 +10,5 @@ services:
   Brightside\TransliterateSlugger\EventListener\UniversalSlugInjector:
     tags:
       - name: event.listener
-        identifier: "transliterate-slugger-universal-injector"
+        identifier: "transliterate-slugger-native-injector"
         event: TYPO3\CMS\Core\Configuration\Event\AfterTcaCompilationEvent

@@ -2,7 +2,7 @@
 namespace Brightside\TransliterateSlugger\EventListener;
 
 use TYPO3\CMS\Core\Configuration\Event\AfterTcaCompilationEvent;
-use Brightside\TransliterateSlugger\Hook\TransliterateSlugModifier;
+use Brightside\TransliterateSlugger\Hook\NativeTransliteratorModifier;
 
 class UniversalSlugInjector
 {
@@ -18,14 +18,12 @@ class UniversalSlugInjector
             foreach ($tableConfig['columns'] as $fieldName => &$fieldConfig) {
                 if (($fieldConfig['config']['type'] ?? '') === 'slug') {
                     
-                    // Explicitly initialize generatorOptions and postModifiers using approved schema structure
                     if (!isset($fieldConfig['config']['generatorOptions']['postModifiers']) || !is_array($fieldConfig['config']['generatorOptions']['postModifiers'])) {
                         $fieldConfig['config']['generatorOptions']['postModifiers'] = [];
                     }
 
-                    // Append our modifier class safely
                     $fieldConfig['config']['generatorOptions']['postModifiers'][] = 
-                        TransliterateSlugModifier::class . '->modifySlug';
+                        NativeTransliteratorModifier::class . '->modifySlug';
                 }
             }
         }
