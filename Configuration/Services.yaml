@@ -4,9 +4,11 @@ services:
     autoconfigure: true
     public: false
 
-  # Fixed: Single parent jump to find the Classes folder
   Brightside\TransliterateSlugger\:
     resource: "../Classes/*"
 
-  Brightside\TransliterateSlugger\Hook\TransliterateSlugModifier:
-    public: true
+  Brightside\TransliterateSlugger\EventListener\UniversalSlugInjector:
+    tags:
+      - name: event.listener
+        identifier: "transliterate-slugger-universal-injector"
+        event: TYPO3\CMS\Core\Configuration\Event\AfterTcaCompilationEvent
