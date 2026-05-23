@@ -5,10 +5,11 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\DataHandling\SlugHelper;
 
 class NativeTransliteratorModifier
 {
-    public function modifySlug(array $params): string
+    public function modifySlug(array $params, SlugHelper $reference): string
     {
         $languageCode = $this->getLanguageCode($params);
         $record = $params['record'] ?? [];
@@ -40,7 +41,9 @@ class NativeTransliteratorModifier
         $rawText = $this->processString($rawText, $languageCode);
 
         // 3. Apply the final URL-safe slug formatting
-        $cleanSegment = (new AsciiSlugger($languageCode))->slug($rawText)->lower()->toString();
+//        $cleanSegment = (new AsciiSlugger($languageCode))->slug($rawText)->lower()->toString();
+        $cleanSegment = $reference->sanitize($rawText);
+        
 
         // Preserve folder path layouts if manipulating the core page tree
         if (($params['tableName'] ?? '') === 'pages') {
