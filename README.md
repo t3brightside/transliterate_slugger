@@ -9,6 +9,8 @@ By default, TYPO3 hardcodes German phonetic rules for URLs (converting `ä` to `
 
 This extension automatically fixes this by intercepting **all slug fields** in TYPO3 (Pages, News, etc.) and processing them through your server's native PHP ICU transliteration engine. It safely strips accents for global languages while correctly routing native German translations to their required format.
 
+Filename sanitation on upload is applied by the `[SYS][systemLocale]`. If not set, fallback is `en`.
+
 ## Dependencies
 
 This extension requires the following to be installed on your server/environment:

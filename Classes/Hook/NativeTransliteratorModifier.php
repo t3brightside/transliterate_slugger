@@ -36,7 +36,26 @@ class NativeTransliteratorModifier
             return $params['slug'] ?? '';
         }
 
-        // 2. FULLY AUTOMATED ICU RUNTIME PROBING
+        // 2. Process through shared ICU logic
+        $rawText = $this->processString($rawText, $languageCode);
+
+        // 3. Apply the final URL-safe slug formatting
+        $cleanSegment = (new AsciiSlugger($languageCode))->slug($rawText)->lower()->toString();
+
+        // Preserve folder path layouts if manipulating the core page tree
+        if (($params['tableName'] ?? '') === 'pages') {
+            $parentPath = dirname($params['slug'] ?? '');
+            return ($parentPath === '/' ? '/' : $parentPath . '/') . $cleanSegment;
+        }
+
+        return $cleanSegment;
+    }
+
+    /**
+     * Shared Core Logic: Used by both the Slugger and the File Sanitizer
+     */
+    public function processString(string $rawText, string $languageCode): string
+    {
         // Build a dynamic ruleset string matching the target language (e.g., 'Any-Latin; de-ASCII')
         $transliteratorId = "Any-Latin; {$languageCode}-ASCII";
         
@@ -50,20 +69,8 @@ class NativeTransliteratorModifier
 
         // Apply the resolved native rule chain
         $nativeCleanedText = transliterator_transliterate($transliteratorId, $rawText);
-        if ($nativeCleanedText !== false) {
-            $rawText = $nativeCleanedText;
-        }
-
-        // 3. Apply the final URL-safe slug formatting
-        $cleanSegment = (new AsciiSlugger($languageCode))->slug($rawText)->lower()->toString();
-
-        // Preserve folder path layouts if manipulating the core page tree
-        if (($params['tableName'] ?? '') === 'pages') {
-            $parentPath = dirname($params['slug'] ?? '');
-            return ($parentPath === '/' ? '/' : $parentPath . '/') . $cleanSegment;
-        }
-
-        return $cleanSegment;
+        
+        return $nativeCleanedText !== false ? $nativeCleanedText : $rawText;
     }
 
     /**

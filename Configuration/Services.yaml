@@ -12,3 +12,9 @@ services:
       - name: event.listener
         identifier: "transliterate-slugger-native-injector"
         event: TYPO3\CMS\Core\Configuration\Event\AfterTcaCompilationEvent
+
+  Brightside\TransliterateSlugger\EventListener\CustomFileNameSanitizer:
+    tags:
+      - name: event.listener
+        identifier: "transliterate-slugger-file-sanitizer"
+        event: TYPO3\CMS\Core\Resource\Event\SanitizeFileNameEvent
