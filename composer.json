@@ -1,6 +1,6 @@
 {
     "name": "t3brightside/transliterate-slugger",
-    "description": "Native PHP ICU transliteration for TYPO3 slug fields.",
+    "description": "Native PHP ICU transliteration for TYPO3 slug fields and file names.",
     "type": "typo3-cms-extension",
 	"keywords": ["TYPO3", "extension", "slug", "transliteration", "nordic", "estonian", "finnish", "scandinavian"],
 	"license": "GPL-2.0-or-later",
