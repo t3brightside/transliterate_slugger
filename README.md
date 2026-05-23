@@ -23,7 +23,7 @@ This extension requires the following to be installed on your server/environment
    Run the following command in your project root:
 
     ```bash
-    composer require brightside/transliterate-slugger
+    composer require t3brightside/transliterate-slugger
     ```
 
 2. **Dump Autoload:**
