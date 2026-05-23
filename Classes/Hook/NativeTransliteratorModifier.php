@@ -1,7 +1,7 @@
 <?php
 namespace Brightside\TransliterateSlugger\Hook;
 
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -40,7 +40,17 @@ class NativeTransliteratorModifier
         $rawText = $this->processString($rawText, $languageCode);
 
         // 3. Apply the final URL-safe slug formatting
-        $cleanSegment = (new AsciiSlugger($languageCode))->slug($rawText)->lower()->toString();
+        // Route the final cleanup through SlugHelper::sanitize() so any
+        // XCLASS-registered sanitization rules (custom charset maps,
+        // underscore preservation, slash handling, etc.) get applied on the
+        // transliterated text instead of being silently bypassed.
+        $slugHelper = GeneralUtility::makeInstance(
+            SlugHelper::class,
+            (string)($params['tableName'] ?? ''),
+            (string)($params['fieldName'] ?? ''),
+            $params['configuration'] ?? [],
+        );
+        $cleanSegment = $slugHelper->sanitize($rawText);
 
         // Preserve folder path layouts if manipulating the core page tree
         if (($params['tableName'] ?? '') === 'pages') {
