@@ -1,7 +1,6 @@
 <?php
 namespace Brightside\TransliterateSlugger\Hook;
 
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
