@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Brightside\TransliterateSlugger\Hook;
 
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -36,18 +38,22 @@ class NativeTransliteratorModifier
             return $params['slug'] ?? '';
         }
 
-        // 2. Process through shared ICU logic
+        // 2. Process through shared native ICU logic
         $rawText = $this->processString($rawText, $languageCode);
 
-        // 3. Apply the final URL-safe slug formatting
-//        $cleanSegment = (new AsciiSlugger($languageCode))->slug($rawText)->lower()->toString();
+        // 3. Apply the final URL-safe slug formatting via TYPO3's native SlugHelper
         $cleanSegment = $reference->sanitize($rawText);
-        
 
-        // Preserve folder path layouts if manipulating the core page tree
-        if (($params['tableName'] ?? '') === 'pages') {
-            $parentPath = dirname($params['slug'] ?? '');
-            return ($parentPath === '/' ? '/' : $parentPath . '/') . $cleanSegment;
+        // 4. Surgically replace ONLY the final segment (Bulletproof string manipulation)
+        $coreSlug = (string)($params['slug'] ?? '');
+        $lastSlashPos = strrpos($coreSlug, '/');
+
+        if ($lastSlashPos !== false) {
+            // Get the parent path string (everything before the final slash)
+            $parentPath = substr($coreSlug, 0, $lastSlashPos);
+            
+            // rtrim/ltrim guarantees that no matter what TYPO3 passes, there is ONLY EVER one slash between them
+            return rtrim($parentPath, '/') . '/' . ltrim($cleanSegment, '/');
         }
 
         return $cleanSegment;
